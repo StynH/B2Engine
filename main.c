@@ -7,11 +7,15 @@
 #include "Graphics.h"
 #include <stdlib.h>
 #include <SDL_image.h>
+#include <stdio.h>
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
 int main( int argc, char* args[] ) {
+    //Keep track of the frame count
+    int frame = 0;
+
     //The window we'll be rendering to
     SDL_Window* window = NULL;
 
@@ -33,20 +37,37 @@ int main( int argc, char* args[] ) {
         }
         else
         {
+            //Create renderer
             SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
             //Create game context
             Context* game = (Context*)malloc(sizeof(Context));
 
-            for(uint16_t i = 0; i < 1; ++i){
+            //Create test entities
+            for(uint32_t i = 0; i < 512; ++i){
                 Sprite sprite;
-                loadSprite(renderer, &sprite, "faust.png");
-                addEntity(game, i * 32, i * 32, i * 16, i * 16, &sprite);
+                loadSprite(renderer, &sprite, "gold.png");
+                addEntity(game, 0, 0, sprite.width, sprite.height, &sprite);
             }
 
+            //Show loaded sprites
             showSpritesLoaded();
 
+            //FPS Counter
+            int numFrames = 0;
+            uint32_t startTime = SDL_GetTicks();
+
+            //Game loop
             while(1){
+                ++numFrames;
+                Uint32 elapsedMS = SDL_GetTicks() - startTime;
+
+                if (elapsedMS) { // Skip this the first frame
+                    double elapsedSeconds = elapsedMS / 1000.0; // Convert to seconds
+                    double fps = numFrames / elapsedSeconds; // FPS is Frames / Seconds
+                    printf("FPS: %f\n", fps);
+                }
+
                 SDL_Event event;
                 if (SDL_PollEvent(&event)) {
                     if (event.type == SDL_QUIT) {

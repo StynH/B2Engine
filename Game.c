@@ -6,8 +6,8 @@ void updateEntities(Context *_game) {
 
     for(uint16_t i = 0; i < data->amountOfEntities; ++i){
         Position* pos = &data->positions[i];
-        pos->y += 0.001f;
-        pos->x += 0.001f;
+        pos->y += 0.1f;
+        pos->x += 0.1f;
     }
 }
 
