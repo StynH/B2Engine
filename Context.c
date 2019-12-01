@@ -21,6 +21,9 @@ EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, ui
     }
 
     data->id[size] = size + 1;
+    if(data->id[size] > data->highestId){
+        data->highestId = data->id[size];
+    }
 
     Position newPosition;
     newPosition.x = _x;

@@ -30,6 +30,7 @@ typedef struct {
 } Rotation;
 
 typedef struct{
+    int32_t highestId;
     int16_t id[MAX_ENTITIES];
     Position positions[MAX_ENTITIES];
     Dimension dimensions[MAX_ENTITIES];
