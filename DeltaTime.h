@@ -15,5 +15,6 @@ DeltaTime* timer;
 
 void initializeTime();
 void tickDeltaTime();
+void freeTime();
 
 #endif //B2BSAND_DELTATIME_H

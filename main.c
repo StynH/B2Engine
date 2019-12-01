@@ -10,11 +10,14 @@
 #include <stdlib.h>
 #include <SDL_image.h>
 #include <stdio.h>
+#include <time.h>
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
 
 int main( int argc, char* args[] ) {
+    srand(time(NULL));
+
     //Keep track of the frame count
     int frame = 0;
 
@@ -48,27 +51,6 @@ int main( int argc, char* args[] ) {
             //Initialize context
             initContext(game);
 
-            //Create test entities
-            for(uint32_t i = 0; i < 512; ++i){
-                Sprite sprite;
-                loadSprite(renderer, &sprite, "gold.png");
-                addEntity(
-                    game,
-                    randomBetween(0, SCREEN_WIDTH - sprite.height),
-                    randomBetween(0, SCREEN_HEIGHT - sprite.width),
-                    sprite.width, sprite.height,
-                    (float)randomBetween(0, 360),
-                    &sprite
-                );
-
-                addVelocityComponent(
-                    game,
-                    (float)randomBetween(-200, 200),
-                    (float)randomBetween(-200, 200),
-                    i
-                );
-            }
-
             //Show loaded sprites
             showSpritesLoaded();
 
@@ -87,8 +69,13 @@ int main( int argc, char* args[] ) {
                 if (elapsedMS) { // Skip this the first frame
                     double elapsedSeconds = elapsedMS / 1000.0; // Convert to seconds
                     double fps = numFrames / elapsedSeconds; // FPS is Frames / Seconds
-                    printf("FPS: %f\n", fps);
+
+                    char buffer[512];
+                    sprintf(buffer, "B2 Engine - FPS: %d\n", (int)fps);
+                    SDL_SetWindowTitle(window, buffer);
                 }
+
+                tickDeltaTime();
 
                 SDL_Event event;
                 if (SDL_PollEvent(&event)) {
@@ -96,9 +83,30 @@ int main( int argc, char* args[] ) {
                         // Break out of the loop on quit
                         break;
                     }
-                }
+                    if(event.type == SDL_KEYDOWN){
+                        if(event.key.keysym.sym == SDLK_s){
+                            Sprite sprite;
+                            loadSprite(renderer, &sprite, "gold.png");
+                            EntityID id = addEntity(
+                                    game,
+                                    randomBetween(0, SCREEN_WIDTH - sprite.height),
+                                    randomBetween(0, SCREEN_HEIGHT - sprite.width),
+                                    sprite.width, sprite.height,
+                                    (float)randomBetween(0, 360),
+                                    &sprite
+                            );
 
-                tickDeltaTime();
+                            if(id != NO_FREE_ID_FOUND){
+                                addVelocityComponent(
+                                        game,
+                                        (float)randomBetween(-200, 200),
+                                        (float)randomBetween(-200, 200),
+                                        id
+                                );
+                            }
+                        }
+                    }
+                }
 
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 SDL_RenderClear(renderer);
@@ -111,6 +119,7 @@ int main( int argc, char* args[] ) {
         }
     }
 
+    freeTime();
     destroyTextureLibrary();
 
     //Destroy window

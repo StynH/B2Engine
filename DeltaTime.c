@@ -16,3 +16,7 @@ void tickDeltaTime() {
             (float)SDL_GetPerformanceFrequency()
     ) / 1000.f;
 }
+
+void freeTime(){
+    free(timer);
+}

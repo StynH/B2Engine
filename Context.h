@@ -13,7 +13,7 @@ typedef struct{
 
 void initContext(Context* _data);
 
-void addEntity(Context* _data, uint32_t _x, uint32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite);
+EntityID addEntity(Context* _data, uint32_t _x, uint32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite);
 void removeEntity(Context* _data, int16_t _id);
 void showEntityAtPosition(Context* _data, uint16_t _index);
 

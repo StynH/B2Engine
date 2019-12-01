@@ -11,13 +11,13 @@ void initContext(Context *_data) {
     }
 }
 
-void addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite) {
+EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite) {
     EntityData* data = &_data->entityData;
     const int32_t size = findFirstFreeEntity(_data);
 
     if(size == NO_FREE_ID_FOUND){
         printf("Failed to add new entity, exceeded limit of %d!", MAX_ENTITIES);
-        return;
+        return NO_FREE_ID_FOUND;
     }
 
     data->id[size] = size + 1;
@@ -37,6 +37,8 @@ void addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, uint32
     data->rotation[size] = rotation;
 
     data->sprites[size] = _sprite;
+
+    return size;
 }
 
 void addVelocityComponent(Context* _data, float _vx, float _vy, uint32_t _entityId){

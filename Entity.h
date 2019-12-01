@@ -8,6 +8,8 @@
 #define FREE_ID -1
 #define NO_FREE_ID_FOUND -1
 
+typedef uint32_t EntityID;
+
 struct Context;
 
 typedef struct{

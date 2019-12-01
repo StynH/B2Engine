@@ -1,8 +1,8 @@
 #include "Systems.h"
 #include "DeltaTime.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
 
 void velocitySystem(Position *_position, const Velocity *_velocity) {
     _position->x += _velocity->vx * timer->deltaTime;
