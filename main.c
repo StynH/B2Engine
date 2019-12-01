@@ -47,10 +47,10 @@ int main( int argc, char* args[] ) {
             initContext(game);
 
             //Create test entities
-            for(uint32_t i = 0; i < 1; ++i){
+            for(uint32_t i = 0; i < 512; ++i){
                 Sprite sprite;
                 loadSprite(renderer, &sprite, "gold.png");
-                addEntity(game, 0, 0, sprite.width, sprite.height, &sprite);
+                addEntity(game, 0, 0, sprite.width, sprite.height, 0.f, &sprite);
                 addVelocityComponent(game, 0.02f, 0.02f, i);
             }
 

@@ -8,5 +8,6 @@
 #include "Entity.h"
 
 void velocitySystem(Position* _position, Velocity* _velocity);
+void drawSystem(SDL_Renderer* _renderer, const Position* _position, const Rotation* _rotation, const Sprite* _sprite);
 
 #endif //B2BSAND_SYSTEMS_H

@@ -25,10 +25,15 @@ typedef struct{
     int32_t height;
 } Dimension;
 
+typedef struct {
+    float angle;
+} Rotation;
+
 typedef struct{
     int16_t id[MAX_ENTITIES];
     Position positions[MAX_ENTITIES];
     Dimension dimensions[MAX_ENTITIES];
+    Rotation rotation[MAX_ENTITIES];
     Velocity* velocity[MAX_ENTITIES];
     Sprite* sprites[MAX_ENTITIES];
 } EntityData;

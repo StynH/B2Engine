@@ -18,17 +18,8 @@ void drawEntities(SDL_Renderer* _renderer, Context *_game) {
     const EntityData* data = &_game->entityData;
 
     for(uint32_t i = 0; i < MAX_ENTITIES; ++i){
-        if(data->id[i] == FREE_ID) continue;
+        if(data->id[i] == FREE_ID || data->sprites[i] == NULL) continue;
 
-        Position pos = data->positions[i];
-        Sprite* sprite = data->sprites[i];
-
-        SDL_Rect rect;
-        rect.x = (int)pos.x;
-        rect.y = (int)pos.y;
-        rect.w = sprite->width;
-        rect.h = sprite->height;
-
-        SDL_RenderCopy(_renderer, sprite->texture, NULL, &rect);
+        drawSystem(_renderer, &data->positions[i], &data->rotation[i], data->sprites[i]);
     }
 }
