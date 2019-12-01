@@ -29,12 +29,22 @@ typedef struct {
     float angle;
 } Rotation;
 
+typedef enum{
+    NO_COLLIDE,
+    SOLID
+} CollisionType;
+
+typedef struct{
+    CollisionType type;
+} Collider;
+
 typedef struct{
     int32_t highestId;
     int16_t id[MAX_ENTITIES];
     Position positions[MAX_ENTITIES];
     Dimension dimensions[MAX_ENTITIES];
     Rotation rotation[MAX_ENTITIES];
+    Collider collider[MAX_ENTITIES];
     Velocity* velocity[MAX_ENTITIES];
     Sprite* sprites[MAX_ENTITIES];
 } EntityData;

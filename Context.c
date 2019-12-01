@@ -11,7 +11,7 @@ void initContext(Context *_data) {
     }
 }
 
-EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite) {
+EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite, CollisionType _collision) {
     EntityData* data = &_data->entityData;
     const int32_t size = findFirstFreeEntity(_data);
 
@@ -38,6 +38,10 @@ EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, ui
     Rotation rotation;
     rotation.angle = _angle;
     data->rotation[size] = rotation;
+
+    Collider collider;
+    collider.type = _collision;
+    data->collider[size] = collider;
 
     data->sprites[size] = _sprite;
 

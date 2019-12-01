@@ -9,7 +9,6 @@
 #include "DeltaTime.h"
 #include <stdlib.h>
 #include <SDL_image.h>
-#include <stdio.h>
 #include <time.h>
 
 #define SCREEN_WIDTH 1024
@@ -93,7 +92,8 @@ int main( int argc, char* args[] ) {
                                     randomBetween(0, SCREEN_HEIGHT - sprite.width),
                                     sprite.width, sprite.height,
                                     (float)randomBetween(0, 360),
-                                    &sprite
+                                    &sprite,
+                                    SOLID
                             );
 
                             if(id != NO_FREE_ID_FOUND){

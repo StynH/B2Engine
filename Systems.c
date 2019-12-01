@@ -1,5 +1,6 @@
 #include "Systems.h"
 #include "DeltaTime.h"
+#include "Math.h"
 
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
@@ -19,12 +20,21 @@ void drawSystem(SDL_Renderer* _renderer, const Position* _position, const Rotati
     SDL_RenderCopyEx(_renderer, _sprite->texture, NULL, &rect, _rotation->angle, NULL, SDL_FLIP_NONE);
 }
 
-void collisionSystem(const Position* _position, const Dimension* _dimension, Velocity* _velocity) {
-    if (_position->x + (_velocity->vx * timer->deltaTime) + _dimension->width > SCREEN_WIDTH || _position->x + (_velocity->vx * timer->deltaTime) < 0) {
-        _velocity->vx = -_velocity->vx;
-    }
+void collisionSystem(EntityData* _data, const Collider* _collider, const Position* _position, const Dimension* _dimension, Velocity* _velocity) {
+    if(_collider->type == NO_COLLIDE) return;
 
-    if (_position->y + (_velocity->vy * timer->deltaTime) + _dimension->height > SCREEN_HEIGHT || _position->y + (_velocity->vy * timer->deltaTime) < 0) {
-        _velocity->vy = -_velocity->vy;
+    for(uint32_t i = 0; i < _data->highestId; ++i){
+        //Skip if collider is the same.
+        if(&_data->collider[i] != _collider && _data->collider[i].type != NO_COLLIDE){
+
+            Position secondPosition = _data->positions[i];
+            Dimension secondDimension = _data->dimensions[i];
+
+            if(intersectRect(_position, _dimension, &secondPosition, &secondDimension)){
+                _velocity->vx = 0;
+                _velocity->vy = 0;
+                return;
+            }
+        }
     }
 }
