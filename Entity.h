@@ -10,8 +10,6 @@
 
 typedef uint32_t EntityID;
 
-struct Context;
-
 typedef struct{
     float x;
     float y;
