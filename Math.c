@@ -2,7 +2,7 @@
 #include "Math.h"
 #include "Entity.h"
 
-int randomBetween(int32_t _low, uint64_t _high) {
+int32_t randomBetween(int32_t _low, int32_t _high) {
     return rand() % ((_high - _low) + 1) + _low;
 }
 
