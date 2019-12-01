@@ -9,6 +9,7 @@ void updateEntities(Context *_game) {
         if(data->id[i] == FREE_ID) continue;
 
         if(data->velocity[i] != NULL){
+            collisionSystem(&data->positions[i], &data->dimensions[i], data->velocity[i]);
             velocitySystem(&data->positions[i], data->velocity[i]);
         }
     }

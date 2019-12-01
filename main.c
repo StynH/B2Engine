@@ -5,6 +5,8 @@
 #include "Context.h"
 #include "Game.h"
 #include "Graphics.h"
+#include "Math.h"
+#include "DeltaTime.h"
 #include <stdlib.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -50,8 +52,21 @@ int main( int argc, char* args[] ) {
             for(uint32_t i = 0; i < 512; ++i){
                 Sprite sprite;
                 loadSprite(renderer, &sprite, "gold.png");
-                addEntity(game, 0, 0, sprite.width, sprite.height, 0.f, &sprite);
-                addVelocityComponent(game, 0.02f, 0.02f, i);
+                addEntity(
+                    game,
+                    randomBetween(0, SCREEN_WIDTH - sprite.height),
+                    randomBetween(0, SCREEN_HEIGHT - sprite.width),
+                    sprite.width, sprite.height,
+                    (float)randomBetween(0, 360),
+                    &sprite
+                );
+
+                addVelocityComponent(
+                    game,
+                    (float)randomBetween(-200, 200),
+                    (float)randomBetween(-200, 200),
+                    i
+                );
             }
 
             //Show loaded sprites
@@ -60,6 +75,9 @@ int main( int argc, char* args[] ) {
             //FPS Counter
             int numFrames = 0;
             uint32_t startTime = SDL_GetTicks();
+
+            //Start Delta Time
+            initializeTime();
 
             //Game loop
             while(1){
@@ -79,6 +97,8 @@ int main( int argc, char* args[] ) {
                         break;
                     }
                 }
+
+                tickDeltaTime();
 
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
                 SDL_RenderClear(renderer);
