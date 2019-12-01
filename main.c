@@ -43,11 +43,15 @@ int main( int argc, char* args[] ) {
             //Create game context
             Context* game = (Context*)malloc(sizeof(Context));
 
+            //Initialize context
+            initContext(game);
+
             //Create test entities
-            for(uint32_t i = 0; i < 512; ++i){
+            for(uint32_t i = 0; i < 1; ++i){
                 Sprite sprite;
                 loadSprite(renderer, &sprite, "gold.png");
                 addEntity(game, 0, 0, sprite.width, sprite.height, &sprite);
+                addVelocityComponent(game, 0.02f, 0.02f, i);
             }
 
             //Show loaded sprites

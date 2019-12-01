@@ -1,20 +1,25 @@
 #include "Game.h"
 #include "stdio.h"
+#include "Systems.h"
 
 void updateEntities(Context *_game) {
     EntityData* data = &_game->entityData;
 
-    for(uint16_t i = 0; i < data->amountOfEntities; ++i){
-        Position* pos = &data->positions[i];
-        pos->y += 0.1f;
-        pos->x += 0.1f;
+    for(uint32_t i = 0; i < MAX_ENTITIES; ++i){
+        if(data->id[i] == FREE_ID) continue;
+
+        if(data->velocity[i] != NULL){
+            velocitySystem(&data->positions[i], data->velocity[i]);
+        }
     }
 }
 
 void drawEntities(SDL_Renderer* _renderer, Context *_game) {
     const EntityData* data = &_game->entityData;
 
-    for(uint16_t i = 0; i < data->amountOfEntities; ++i){
+    for(uint32_t i = 0; i < MAX_ENTITIES; ++i){
+        if(data->id[i] == FREE_ID) continue;
+
         Position pos = data->positions[i];
         Sprite* sprite = data->sprites[i];
 

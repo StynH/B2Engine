@@ -5,6 +5,8 @@
 #include "Graphics.h"
 
 #define MAX_ENTITIES 65536
+#define FREE_ID -1
+#define NO_FREE_ID_FOUND -1
 
 struct Context;
 
@@ -14,14 +16,20 @@ typedef struct{
 } Position;
 
 typedef struct{
+    float vx;
+    float vy;
+} Velocity;
+
+typedef struct{
     int32_t width;
     int32_t height;
 } Dimension;
 
 typedef struct{
-    uint16_t amountOfEntities;
+    int16_t id[MAX_ENTITIES];
     Position positions[MAX_ENTITIES];
     Dimension dimensions[MAX_ENTITIES];
+    Velocity* velocity[MAX_ENTITIES];
     Sprite* sprites[MAX_ENTITIES];
 } EntityData;
 
