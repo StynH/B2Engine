@@ -87,6 +87,21 @@ int main( int argc, char* args[] ) {
                     id
             );
 
+            //Add random entities
+            for(uint8_t i = 0; i < 10; ++i){
+                Sprite esprite;
+                loadSprite(renderer, &esprite, "gold.png");
+                EntityID eid = addEntity(
+                        game,
+                        randomBetween(0, SCREEN_WIDTH - sprite.height),
+                        randomBetween(0, SCREEN_HEIGHT - sprite.width),
+                        esprite.width, esprite.height,
+                        (float)randomBetween(0, 360),
+                        &esprite,
+                        SOLID
+                );
+            }
+
             //Game loop
             while(1){
                 ++numFrames;

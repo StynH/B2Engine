@@ -26,7 +26,7 @@ void drawSystem(SDL_Renderer* _renderer, const Position* _position, const Rotati
 }
 
 void collisionSystem(EntityData* _data, const Collider* _collider, const Position* _position, const Dimension* _dimension, Velocity* _velocity) {
-    if(_collider->type == NO_COLLIDE) return;
+    if(_collider->type == NO_COLLIDE || _velocity == NULL) return;
 
     for(uint32_t i = 0; i < _data->highestId; ++i){
         //Skip if collider is the same.
@@ -35,7 +35,11 @@ void collisionSystem(EntityData* _data, const Collider* _collider, const Positio
             Position secondPosition = _data->positions[i];
             Dimension secondDimension = _data->dimensions[i];
 
-            if(intersectRect(_position, _dimension, &secondPosition, &secondDimension)){
+            Position nextPosition;
+            nextPosition.x = _position->x + (_velocity->vx * timer->deltaTime);
+            nextPosition.y = _position->y + (_velocity->vy * timer->deltaTime);
+
+            if(intersectRect(&nextPosition, _dimension, &secondPosition, &secondDimension)){
                 _velocity->vx = 0;
                 _velocity->vy = 0;
                 return;
