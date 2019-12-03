@@ -16,6 +16,8 @@ void velocitySystem(Position *_position, const Velocity *_velocity) {
 }
 
 void drawSystem(SDL_Renderer* _renderer, const Position* _position, const Rotation* _rotation, const Sprite* _sprite) {
+    if(_sprite == NULL) return;
+
     SDL_Rect rect;
     rect.x = (int)_position->x;
     rect.y = (int)_position->y;
