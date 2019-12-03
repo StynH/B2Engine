@@ -43,7 +43,13 @@ EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, ui
     collider.type = _collision;
     data->collider[size] = collider;
 
-    data->sprites[size] = _sprite;
+    InputListener input;
+    input.listens = false;
+    data->inputListeners[size] = input;
+
+    if(_sprite != NULL){
+        data->sprites[size] = _sprite;
+    }
 
     return size;
 }
@@ -56,6 +62,14 @@ void addVelocityComponent(Context* _data, float _vx, float _vy, uint32_t _entity
     component->vx = _vx;
 
     data->velocity[_entityId] = component;
+}
+
+void addInputListener(Context* _data, bool listens, uint32_t _entityId){
+    EntityData* data = &_data->entityData;
+
+    InputListener listener;
+    listener.listens = listens;
+    data->inputListeners[_entityId] = listener;
 }
 
 void removeEntity(Context* _data, int16_t _id) {

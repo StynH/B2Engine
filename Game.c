@@ -8,10 +8,9 @@ void updateEntities(Context *_game) {
     for(uint32_t i = 0; i < data->highestId; ++i){
         if(data->id[i] == FREE_ID) continue;
 
-        if(data->velocity[i] != NULL){
-            collisionSystem(data, &data->collider[i], &data->positions[i], &data->dimensions[i], data->velocity[i]);
-            velocitySystem(&data->positions[i], data->velocity[i]);
-        }
+        inputSystem(data, &data->inputListeners[i], data->velocity[i]);
+        collisionSystem(data, &data->collider[i], &data->positions[i], &data->dimensions[i], data->velocity[i]);
+        velocitySystem(&data->positions[i], data->velocity[i]);
     }
 }
 

@@ -7,6 +7,7 @@
 #include "Graphics.h"
 #include "Math.h"
 #include "DeltaTime.h"
+#include "Input.h"
 #include <stdlib.h>
 #include <SDL_image.h>
 #include <time.h>
@@ -60,6 +61,32 @@ int main( int argc, char* args[] ) {
             //Start Delta Time
             initializeTime();
 
+            //Add player
+            Sprite sprite;
+            loadSprite(renderer, &sprite, "player.png");
+            EntityID id = addEntity(
+                    game,
+                    20,
+                    20,
+                    sprite.width, sprite.height,
+                    0,
+                    &sprite,
+                    SOLID
+            );
+
+            addVelocityComponent(
+                    game,
+                    0,
+                    0,
+                    id
+            );
+
+            addInputListener(
+                    game,
+                    true,
+                    id
+            );
+
             //Game loop
             while(1){
                 ++numFrames;
@@ -83,28 +110,10 @@ int main( int argc, char* args[] ) {
                         break;
                     }
                     if(event.type == SDL_KEYDOWN){
-                        if(event.key.keysym.sym == SDLK_s){
-                            Sprite sprite;
-                            loadSprite(renderer, &sprite, "gold.png");
-                            EntityID id = addEntity(
-                                    game,
-                                    randomBetween(0, SCREEN_WIDTH - sprite.height),
-                                    randomBetween(0, SCREEN_HEIGHT - sprite.width),
-                                    sprite.width, sprite.height,
-                                    (float)randomBetween(0, 360),
-                                    &sprite,
-                                    SOLID
-                            );
-
-                            if(id != NO_FREE_ID_FOUND){
-                                addVelocityComponent(
-                                        game,
-                                        (float)randomBetween(-200, 200),
-                                        (float)randomBetween(-200, 200),
-                                        id
-                                );
-                            }
-                        }
+                        input.keyPressed = event.key.keysym.sym;
+                    }
+                    if(event.type == SDL_KEYUP){
+                        input.keyPressed = 0;
                     }
                 }
 
