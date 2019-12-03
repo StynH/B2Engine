@@ -6,6 +6,7 @@
 #include <SDL_keycode.h>
 
 typedef struct{
+    SDL_Keycode keyReleased;
     SDL_Keycode keyPressed;
 } InputHolder;
 

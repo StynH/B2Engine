@@ -105,6 +105,7 @@ int main( int argc, char* args[] ) {
 
                 SDL_Event event;
                 if (SDL_PollEvent(&event)) {
+                    input.keyReleased = 0;
                     if (event.type == SDL_QUIT) {
                         // Break out of the loop on quit
                         break;
@@ -114,6 +115,7 @@ int main( int argc, char* args[] ) {
                     }
                     if(event.type == SDL_KEYUP){
                         input.keyPressed = 0;
+                        input.keyReleased = event.key.keysym.sym;
                     }
                 }
 

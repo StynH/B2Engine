@@ -48,27 +48,26 @@ void inputSystem(EntityData* _data, const InputListener* _input, Velocity* _velo
     if(!_input->listens) return;
 
     if(input.keyPressed == SDLK_w){
-        _velocity->vx = 0;
         _velocity->vy = -PLAYER_SPEED;
     }
 
     if(input.keyPressed == SDLK_d){
         _velocity->vx = PLAYER_SPEED;
-        _velocity->vy = 0;
     }
 
     if(input.keyPressed == SDLK_s){
-        _velocity->vx = 0;
         _velocity->vy = PLAYER_SPEED;
     }
 
     if(input.keyPressed == SDLK_a){
         _velocity->vx = -PLAYER_SPEED;
-        _velocity->vy = 0;
     }
 
-    if(input.keyPressed == 0){
+    if(input.keyReleased == SDLK_a || input.keyReleased == SDLK_d){
         _velocity->vx = 0;
+    }
+
+    if(input.keyReleased == SDLK_w || input.keyReleased == SDLK_s){
         _velocity->vy = 0;
     }
 }
