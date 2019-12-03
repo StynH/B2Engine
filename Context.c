@@ -11,7 +11,43 @@ void initContext(Context *_data) {
     }
 }
 
-EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite, CollisionType _collision) {
+EntityID cloneEntity(Context* _data, EntityID _entityId){
+    EntityData* data = &_data->entityData;
+    const int32_t size = findFirstFreeEntity(_data);
+
+    data->id[size] = size + 1;
+    if(data->id[size] > data->highestId){
+        data->highestId = data->id[size];
+    }
+
+    Position newPosition;
+    newPosition.x = data->positions[_entityId].x;
+    newPosition.y = data->positions[_entityId].y;
+    data->positions[size] = newPosition;
+
+    Dimension dimension;
+    dimension.width = data->dimensions[_entityId].width;
+    dimension.height =data->dimensions[_entityId].height;
+    data->dimensions[size] = dimension;
+
+    Rotation rotation;
+    rotation.angle = data->rotation[_entityId].angle;
+    data->rotation[size] = rotation;
+
+    Collider collider;
+    collider.type = data->collider[_entityId].type;
+    data->collider[size] = collider;
+
+    InputListener input;
+    input.listens = data->inputListeners[_entityId].listens;
+    data->inputListeners[size] = input;
+
+    data->sprites[size] = data->sprites[_entityId];
+
+    return size;
+}
+
+EntityID addEntity(Context* _data, int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, float _angle, Sprite* _sprite, CollisionType _collision) {
     EntityData* data = &_data->entityData;
     const int32_t size = findFirstFreeEntity(_data);
 
@@ -54,7 +90,14 @@ EntityID addEntity(Context *_data, uint32_t _x, uint32_t _y, uint32_t _width, ui
     return size;
 }
 
-void addVelocityComponent(Context* _data, float _vx, float _vy, uint32_t _entityId){
+void setPosition(Context* _data, EntityID _entityId, int32_t _x, int32_t _y) {
+    EntityData* data = &_data->entityData;
+
+    data->positions[_entityId].x = _x;
+    data->positions[_entityId].y = _y;
+}
+
+void addVelocityComponent(Context* _data, float _vx, float _vy, EntityID _entityId){
     EntityData* data = &_data->entityData;
 
     Velocity* component = (Velocity*)malloc(sizeof(Velocity));
@@ -64,7 +107,7 @@ void addVelocityComponent(Context* _data, float _vx, float _vy, uint32_t _entity
     data->velocity[_entityId] = component;
 }
 
-void addInputListener(Context* _data, bool listens, uint32_t _entityId){
+void addInputListener(Context* _data, bool listens, EntityID _entityId){
     EntityData* data = &_data->entityData;
 
     InputListener listener;
@@ -72,7 +115,7 @@ void addInputListener(Context* _data, bool listens, uint32_t _entityId){
     data->inputListeners[_entityId] = listener;
 }
 
-void removeEntity(Context* _data, int16_t _id) {
+void removeEntity(Context* _data, EntityID _id) {
     EntityData* data = &_data->entityData;
     data->id[_id - 1] = FREE_ID;
 
@@ -83,7 +126,7 @@ void removeEntity(Context* _data, int16_t _id) {
     data->velocity[_id - 1] = NULL;
 }
 
-void showEntityAtPosition(Context *_data, uint16_t _index) {
+void showEntityAtPosition(Context *_data, EntityID _index) {
     printf("Entity #%d, has position %f,%f and dimensions %d, %d\n",
            _index,
            _data->entityData.positions[_index].x,

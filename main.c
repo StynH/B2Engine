@@ -87,23 +87,27 @@ int main( int argc, char* args[] ) {
                     id
             );
 
-            //Add random entities
-            for(uint8_t i = 0; i < 10; ++i){
-                Sprite tempSprite;
-                loadSprite(renderer, &tempSprite, "gold.png");
-                EntityID eid = addEntity(
-                        game,
-                        randomBetween(0, SCREEN_WIDTH - sprite.height),
-                        randomBetween(0, SCREEN_HEIGHT - sprite.width),
-                        tempSprite.width, tempSprite.height,
-                        (float)randomBetween(0, 360),
-                        &tempSprite,
-                        SOLID
-                );
+            //Add Template entity
+            Sprite tempSprite;
+            loadSprite(renderer, &tempSprite, "gold.png");
+            EntityID templateId = addEntity(
+                    game,
+                    randomBetween(0, SCREEN_WIDTH - sprite.height),
+                    randomBetween(0, SCREEN_HEIGHT - sprite.width),
+                    tempSprite.width, tempSprite.height,
+                    (float)randomBetween(0, 360),
+                    &tempSprite,
+                    SOLID
+            );
+
+            //Clone that entity few more times.
+            for(uint8_t i = 0; i < 9; ++i){
+                EntityID cloneId = cloneEntity(game, templateId);
+                setPosition(game, cloneId, randomBetween(0, SCREEN_WIDTH - sprite.height), randomBetween(0, SCREEN_HEIGHT - sprite.width));
             }
 
             //Game loop
-            while(1){
+            while(true){
                 ++numFrames;
                 Uint32 elapsedMS = SDL_GetTicks() - startTime;
 
