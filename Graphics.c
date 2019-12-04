@@ -10,9 +10,7 @@ int16_t amountOfTextures = 0;
 
 void loadSprite(SDL_Renderer* _renderer, Sprite* _sprite, const char* _name) {
     char* buffer = calloc(512, sizeof(char));
-    memset(buffer, 0, sizeof(char));
-    strcat(buffer, TEXTURE_LOCATION);
-    strcat(buffer, _name);
+    snprintf(buffer, 512, "%s%s", TEXTURE_LOCATION, _name);
 
     SDL_Texture* texture = seekExistingSprite(buffer);
 

@@ -7,6 +7,7 @@
 #define SCREEN_HEIGHT 768
 
 #define PLAYER_SPEED 250.f
+
 #define DEBUG_MODE 1
 
 void velocitySystem(Position *_position, const Velocity *_velocity) {
@@ -28,8 +29,16 @@ void drawSystem(SDL_Renderer* _renderer, const Position* _position, const Rotati
     SDL_RenderCopyEx(_renderer, _sprite->texture, NULL, &rect, _rotation->angle, NULL, SDL_FLIP_NONE);
 
 #ifdef DEBUG_MODE
+    if(debugFont == NULL){
+        debugFont = loadFont(_renderer, "debug.ttf", 16);
+    }
+
     SDL_SetRenderDrawColor(_renderer, 255, 255, 0, 255);
     SDL_RenderDrawRect(_renderer, &rect);
+
+    char temp[64];
+    snprintf(temp, sizeof(temp),"X: %d, Y: %d\n", rect.x, rect.y);
+    FC_Draw(debugFont, _renderer, (float)rect.x, (float)rect.y - 12, temp);
     SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 #endif
 }

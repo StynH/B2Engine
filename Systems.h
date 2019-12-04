@@ -6,6 +6,9 @@
 #define B2BSAND_SYSTEMS_H
 
 #include "Entity.h"
+#include "Text.h"
+
+FC_Font* debugFont;
 
 void velocitySystem(Position* _position, const Velocity* _velocity);
 void drawSystem(SDL_Renderer* _renderer, const Position* _position, const Rotation* _rotation, const Sprite* _sprite);
