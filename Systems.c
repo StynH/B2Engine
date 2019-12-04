@@ -7,6 +7,7 @@
 #define SCREEN_HEIGHT 768
 
 #define PLAYER_SPEED 250.f
+#define DEBUG_MODE 1
 
 void velocitySystem(Position *_position, const Velocity *_velocity) {
     if(_velocity == NULL) return;
@@ -25,6 +26,12 @@ void drawSystem(SDL_Renderer* _renderer, const Position* _position, const Rotati
     rect.h = _sprite->height;
 
     SDL_RenderCopyEx(_renderer, _sprite->texture, NULL, &rect, _rotation->angle, NULL, SDL_FLIP_NONE);
+
+#ifdef DEBUG_MODE
+    SDL_SetRenderDrawColor(_renderer, 255, 255, 0, 255);
+    SDL_RenderDrawRect(_renderer, &rect);
+    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+#endif
 }
 
 void collisionSystem(EntityData* _data, const Collider* _collider, const Position* _position, const Dimension* _dimension, Velocity* _velocity) {

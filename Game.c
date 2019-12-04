@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "Systems.h"
 
+
 void updateEntities(Context *_game) {
     EntityData* data = &_game->entityData;
 
